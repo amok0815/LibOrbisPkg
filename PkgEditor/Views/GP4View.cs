@@ -375,9 +375,10 @@ namespace PkgEditor.Views
       Modified = true;
     }
 
-    private void AddFiles(string[] filenames)
+    private void filesListView_DragDrop(object sender, DragEventArgs e)
     {
-      foreach (var file in filenames)
+      var files = ((string[])e.Data.GetData(DataFormats.FileDrop));
+      foreach(var file in files)
       {
         if (File.Exists(file))
         {
@@ -390,12 +391,6 @@ namespace PkgEditor.Views
         }
       }
       PopulateFiles();
-    }
-
-    private void filesListView_DragDrop(object sender, DragEventArgs e)
-    {
-      var files = ((string[])e.Data.GetData(DataFormats.FileDrop));
-      AddFiles(files);
     }
 
     private void newFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -499,17 +494,6 @@ namespace PkgEditor.Views
     {
       if (!loaded) return;
       UpdateCreationDate();
-    }
-
-    private void addFilesToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      using(var fsd = new OpenFileDialog() { Multiselect = true, Title = "Select file(s)..."})
-      {
-        if(fsd.ShowDialog(this) == DialogResult.OK)
-        {
-          AddFiles(fsd.FileNames);
-        }
-      }
     }
   }
 }
